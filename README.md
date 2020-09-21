@@ -17,3 +17,12 @@ Utilizing Covid-19 Dataset, and adding on with Machine Learning.
 # Considerations
 
 To use Pandas to process excel file and Plotly Dash to make the web app.
+
+
+# Taskings
+
+TBC
+
+# Further contributions/addons
+
+TBC
