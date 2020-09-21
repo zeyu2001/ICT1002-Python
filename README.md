@@ -14,9 +14,12 @@ Read data from an external data source, e.g. txt, Json, excel or other formats.
 
 Utilizing Covid-19 Dataset, and adding on with Machine Learning.
 
-# Considerations
+# To-do/Considerations
 
-To use Pandas to process excel file and Plotly Dash to make the web app.
+#To use Pandas to process excel file and Plotly Dash to make the web app.
+* Read datafile, clean data (Since there are many null areas that we need to fill with zeros)
+* Choose Visualizations and implement
+* Convert to web dashboard using dash
 
 
 # Taskings
