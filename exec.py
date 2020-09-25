@@ -5,6 +5,8 @@ import matplotlib.pyplot as plt
 from keras.models import Sequential
 from keras.layers import Dense, Input, LSTM, Embedding, Dropout, Activation, Bidirectional
 
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+
 DATA_DIR = 'data/'
 MODEL_DIR = 'models/'
 METRICS_DIR = 'metrics/'
