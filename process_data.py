@@ -2,8 +2,6 @@ import pandas as pd
 import numpy as np
 import string
 import re
-import nltk
-from nltk.corpus import stopwords
 import os
 from keras.preprocessing.text import Tokenizer
 from keras.preprocessing.sequence import pad_sequences
