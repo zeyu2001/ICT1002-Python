@@ -32,6 +32,8 @@ class last_occurrence(object):
         return self.occurrences[letter]
 
 
+    
+"""To search for any pattern in text, if pattern is not found in text, return -1, if pattern is found, returns the start of the index"""
 def boyer_moore_match(text, pattern):
     """Find occurrence of pattern in text."""
     alphabet = set(text)
@@ -52,3 +54,8 @@ def boyer_moore_match(text, pattern):
             i = i + m - min(j, 1+l)
             j = m - 1
     return -1
+
+
+assert boyer_moore_match("abcd", "cd") == 2
+assert boyer_moore_match("abcd", "lol") == -1
+assert boyer_moore_match("ICT1002", "ICT") == 0
