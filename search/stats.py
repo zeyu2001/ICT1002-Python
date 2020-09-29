@@ -1,21 +1,5 @@
-from data import df, DATA, COLUMNS
 import dash_html_components as html
 import dash_core_components as dcc
-import dash_table as dt
-import pandas as pd
-
-PIXEL_FOR_CHAR = 5
-
-
-def create_conditional_style(df):
-    style = []
-    for col in df.columns[:-1]:
-        name_length = len(col)
-        pixel = 50 + round(name_length * PIXEL_FOR_CHAR)
-        pixel = str(pixel) + "px"
-        style.append({'if': {'column_id': col}, 'minWidth': pixel})
-
-    return style
 
 
 heading = html.Header(
@@ -30,8 +14,36 @@ heading = html.Header(
     )
 )
 
+heading_2 = html.Header(
+    html.H2(
+        "Top 10 Email Categories (From Matched Items)",
+        style={
+            "text-align": "center",
+            "margin": "10px",
+            "font-weight": "lighter",
+        }
+    )
+)
+
+graph = dcc.Graph(id='graph-stats')
+
+matched_count = html.P(
+    id='matched-count-stats',
+    style={"margin": "10px", "display": "inline"}
+)
+
+button_back = dcc.Link(
+    html.Button('Back'), href="/",
+    style={"display": "inline"}
+)
+
+toolbar = html.Div(
+    [matched_count, button_back],
+    style={"margin": "10px"}
+)
+
 search_bar = dcc.Input(
-    id="search-index",
+    id="search-stats",
     type='text',
     placeholder="Search",
     style={
@@ -41,29 +53,8 @@ search_bar = dcc.Input(
     }
 )
 
-table = dt.DataTable(
-    fixed_columns={'headers': True, 'data': 3},
-    style_table={'minWidth': '100%'},
-    style_data_conditional=create_conditional_style(df),
-    style_cell={
-        'textAlign': 'left',
-        'minWidth': '100%',
-        'overflow': 'hidden',
-        'textOverflow': 'ellipsis',
-    },
-    id='table-index',
-    columns=COLUMNS,
-    data=DATA
-)
-
-loading_wrapper_table = dcc.Loading(
-    id="loading-index",
-    type="circle",
-    children=[table]
-)
-
 dropdown = dcc.Dropdown(
-    id='dropdown-index',
+    id='dropdown-stats',
     options=[
         {'label': 'All', 'value': 'all'},
         {'label': 'Spam', 'value': 'spam'},
@@ -99,29 +90,13 @@ user_input = html.Div(
     }
 )
 
-
-matched_count = html.P(
-    id='matched-count-index',
-    style={"margin": "10px", "display": "inline"}
-)
-
-
-button_view_statistics = dcc.Link(
-    html.Button('View Statistics'), href="/stats",
-    style={"display": "inline"}
-)
-
-toolbar = html.Div(
-    [matched_count, button_view_statistics],
-    style={"margin": "10px"}
-)
-
-index_layout = html.Div(
+stats_layout = html.Div(
     [
         heading,
         user_input,
         toolbar,
-        html.Div(loading_wrapper_table),
+        heading_2,
+        graph
     ],
     style={
         "font-family": 'Palatino, "Palatino Linotype", "Palatino LT STD"',
