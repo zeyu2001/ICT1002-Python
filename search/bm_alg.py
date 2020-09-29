@@ -33,9 +33,8 @@ class last_occurrence(object):
 
 
     
-"""To search for any pattern in text, if pattern is not found in text, return -1, if pattern is found, returns the start of the index"""
 def boyer_moore_match(text, pattern):
-    """Find occurrence of pattern in text."""
+    """Find occurrence of pattern in text. If pattern is not found in text, return -1, if pattern is found, returns the start of the index."""
     alphabet = set(text)
     last = last_occurrence(pattern, alphabet)
     m = len(pattern)
@@ -56,6 +55,11 @@ def boyer_moore_match(text, pattern):
     return -1
 
 
-assert boyer_moore_match("abcd", "cd") == 2
-assert boyer_moore_match("abcd", "lol") == -1
-assert boyer_moore_match("ICT1002", "ICT") == 0
+def tests():
+    try:
+        assert boyer_moore_match("abcd", "cd") == 2
+        assert boyer_moore_match("abcd", "lol") == -1
+        assert boyer_moore_match("ICT1002", "ICT") == 0
+    except AssertionError:
+        print("Something went wrong...")
+    
