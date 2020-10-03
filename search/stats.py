@@ -2,18 +2,6 @@ import dash_html_components as html
 import dash_core_components as dcc
 
 
-heading = html.Header(
-    html.H1(
-        "Spam Classifier Dataset",
-        style={
-            "text-align": "center",
-            "margin": "10px",
-            "font-weight": "lighter",
-            "font-size": "300%"
-        }
-    )
-)
-
 heading_2 = html.Header(
     html.H2(
         "Top 10 Email Categories (From Matched Items)",
@@ -92,7 +80,6 @@ user_input = html.Div(
 
 stats_layout = html.Div(
     [
-        heading,
         user_input,
         toolbar,
         heading_2,

@@ -1,8 +1,11 @@
-from data import df, DATA, COLUMNS
+from data import parse_data, DATASET
 import dash_html_components as html
 import dash_core_components as dcc
 import dash_table as dt
 import pandas as pd
+
+# Initialize data for initial layout
+df, DATA, CATEGORIES, COLUMNS = parse_data(DATASET)
 
 PIXEL_FOR_CHAR = 5
 
@@ -17,18 +20,6 @@ def create_conditional_style(df):
 
     return style
 
-
-heading = html.Header(
-    html.H1(
-        "Spam Classifier Dataset",
-        style={
-            "text-align": "center",
-            "margin": "10px",
-            "font-weight": "lighter",
-            "font-size": "300%"
-        }
-    )
-)
 
 search_bar = dcc.Input(
     id="search-index",
@@ -118,7 +109,6 @@ toolbar = html.Div(
 
 index_layout = html.Div(
     [
-        heading,
         user_input,
         toolbar,
         html.Div(loading_wrapper_table),
