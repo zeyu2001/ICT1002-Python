@@ -41,6 +41,18 @@ search_bar = dcc.Input(
     }
 )
 
+date_picker = dcc.RangeSlider(
+    id="date-slider",
+    marks={date for date, time in date_time},
+    values=[start_date, end_date]
+)
+
+time_picker = dcc.RangeSlider(
+    id="time-slider",
+    marks={time for date, time in date_time},
+    values=[start_time, end_time]
+)
+
 dropdown = dcc.Dropdown(
     id='dropdown-stats',
     options=[
@@ -89,3 +101,4 @@ stats_layout = html.Div(
         "font-family": 'Palatino, "Palatino Linotype", "Palatino LT STD"',
     }
 )
+
