@@ -118,7 +118,10 @@ def get_graph(query, category, intermediate_value):
     fig = px.bar(pd.DataFrame(result), x='Label', y='Count',
                  hover_data=['Label', 'Count'], color='Count',
                  labels={'Label': 'Email Content Categories'}, height=400)
-    return fig, "{} items matched.".format(len(data))
+    pie = px.pie(pd.DataFrame(result), values='Count', names='Label', color='Count',
+                 hover_data=['Label', 'Count'],
+                 labels={'Label': "Email Content Categories", 'Count': "Number Of Emails"})
+    return fig, pie, "{} items matched.".format(len(data))
 
 
 def parse_contents(contents, filename, date):
@@ -164,3 +167,5 @@ def update_output(list_of_contents, list_of_names, list_of_dates):
             error_msg = None
 
         return json.dumps({'categories': categories, 'error': error_msg})
+
+
