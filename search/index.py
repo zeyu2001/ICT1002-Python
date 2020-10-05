@@ -44,7 +44,8 @@ table = dt.DataTable(
     },
     id='table-index',
     columns=COLUMNS,
-    data=DATA
+    data=DATA,
+    sort_action="native"
 )
 
 loading_wrapper_table = dcc.Loading(

@@ -13,7 +13,9 @@ heading_2 = html.Header(
     )
 )
 
-graph = dcc.Graph(id='graph-stats')
+bar_graph = dcc.Graph(id='bar-graph-stats')
+pie = dcc.Graph(id='pie-stats')
+line_graph = dcc.Graph(id='line-graph-stats')
 
 matched_count = html.P(
     id='matched-count-stats',
@@ -43,14 +45,12 @@ search_bar = dcc.Input(
 
 date_picker = dcc.RangeSlider(
     id="date-slider",
-    marks={date for date, time in date_time},
-    values=[start_date, end_date]
-)
-
-time_picker = dcc.RangeSlider(
-    id="time-slider",
-    marks={time for date, time in date_time},
-    values=[start_time, end_time]
+    marks={date: "{}/10/2020".format(date) for date in range(1, 8)},
+    updatemode="mouseup",
+    allowCross=False,
+    min=1,
+    max=7,
+    value=[3, 5]
 )
 
 dropdown = dcc.Dropdown(
@@ -95,7 +95,10 @@ stats_layout = html.Div(
         user_input,
         toolbar,
         heading_2,
-        graph
+        date_picker,
+        bar_graph,
+        pie,
+        line_graph
     ],
     style={
         "font-family": 'Palatino, "Palatino Linotype", "Palatino LT STD"',

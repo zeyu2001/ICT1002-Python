@@ -68,13 +68,16 @@ def search_data(query, category, intermediate_value):
 
 
 @app.callback(
-    [Output("graph-stats", "figure"),
+    [Output("bar-graph-stats", "figure"),
+     Output("pie-stats", "figure"),
+     Output("line-graph-stats", "figure"),
      Output('matched-count-stats', 'children')],
     [Input("search-stats", "value"), Input("dropdown-stats", "value"),
-     Input("intermediate-value", "children")]
+     Input("intermediate-value", "children"), Input("date-slider", "value")]
 )
-def get_graph(query, category, intermediate_value):
+def get_graph(query, category, intermediate_value, date_range):
     status_code, data = parse_json(intermediate_value, category)
+
     if status_code == 1:
         # Display empty figure, and show the error message
         empty_fig = {
@@ -101,27 +104,49 @@ def get_graph(query, category, intermediate_value):
         return empty_fig, data
 
     data = get_data(query, data)
-    result = {}
-    for row in data:
-        label = row['Label'].split('>')[0]
-        if not label == 'Uncategorized':
-            result.setdefault(label, 0)
-            result[label] += 1
+    categories_result = {}
+    date_result = {}
+    start_date, end_date = date_range[0], date_range[1]
 
-    sorted_data = sorted(list(result.items()),
+    for row in data:
+        date = row["Datetime"].split()[0]
+
+        if int(date[-1]) in range(start_date, end_date):
+            label = row['Label'].split('>')[0]
+
+            if not label == 'Uncategorized':
+                categories_result.setdefault(label, 0)
+                categories_result[label] += 1
+
+            date_result.setdefault(date, 0)
+            date_result[date] += 1
+
+    categories_sorted_data = sorted(list(categories_result.items()),
                          key=lambda x: x[1], reverse=True)[:10]
-    result = {
-        'Label': [item[0] for item in sorted_data],
-        'Count': [item[1] for item in sorted_data]
+    date_sorted_data = sorted(list(date_result.items()),
+                         key=lambda x: x[1])
+    print(date_sorted_data)
+
+    categories_result = {
+        'Label': [item[0] for item in categories_sorted_data],
+        'Count': [item[1] for item in categories_sorted_data]
+    }
+    date_result = {
+        'Dates': [item[0] for item in date_sorted_data],
+        'Count': [item[1] for item in date_sorted_data]
     }
 
-    fig = px.bar(pd.DataFrame(result), x='Label', y='Count',
+    bar_graph = px.bar(pd.DataFrame(categories_result), x='Label', y='Count',
                  hover_data=['Label', 'Count'], color='Count',
                  labels={'Label': 'Email Content Categories'}, height=400)
-    pie = px.pie(pd.DataFrame(result), values='Count', names='Label', color='Count',
-                 hover_data=['Label', 'Count'],
+    
+    pie = px.pie(pd.DataFrame(categories_result), values='Count', names='Label',
                  labels={'Label': "Email Content Categories", 'Count': "Number Of Emails"})
-    return fig, pie, "{} items matched.".format(len(data))
+
+    line_graph = px.line(pd.DataFrame(date_result), x="Dates", y="Count",
+                         title="Number of Emails sent on Each Day")
+
+    return bar_graph, pie, line_graph, "{} items matched.".format(len(data))
 
 
 def parse_contents(contents, filename, date):
@@ -154,7 +179,7 @@ def update_output(list_of_contents, list_of_names, list_of_dates):
         except Exception as e:
             print(e)
             error_msg = ("There was a problem processing your files. Please ensure the correct format is used." +
-                         " Only CSV files with the headings: ['Spam', 'Label', 'Relevance', 'Text']" +
+                         " Only CSV files with the headings: ['Datetime', 'Spam', 'Label', 'Relevance', 'Text']" +
                          " are supported at the moment.")
             categories = None
 

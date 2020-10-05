@@ -1,17 +1,18 @@
 import pandas as pd
 
-DATASET = "emails_updated.csv"
+DATASET = "emails_updated_datetime.csv"
 DEFAULT_PATH = "C:\\Program Files (x86)\\SpamDetector"
 DEFAULT_FILENAME = "export.csv"
+
 
 def parse_data(dataset):
     # Parse dataset into pandas dataframe
     df = pd.read_csv(dataset, encoding="ISO-8859-1",
                     converters={i: str for i in range(0, 100)})
     # reorganize columns
-    df = df[['Spam', 'Label', 'Relevance', 'Text']]
+    df = df[['Datetime', 'Spam', 'Label', 'Relevance', 'Text']]
 
-    #convert dataframe into a list of dict
+    # convert dataframe into a list of dict
     data = df.to_dict('records')
     
     # list of dictionaries containing spam email
