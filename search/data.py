@@ -33,9 +33,13 @@ def parse_data(dataset):
     return df, data, categories, columns
 
 
-def export_data(data_dict={} ,dataframe=None ,path=DEFAULT_PATH, filename=DEFAULT_FILENAME, col=None):
+def export_data(data_dict=None ,dataframe=None ,path=DEFAULT_PATH, filename=DEFAULT_FILENAME, col=None):
     # ensure there is a path to store exported file
     fullpath = path + '\\' + filename
+
+    # either dictionary or dataframe must be present
+    if data_dict is None and dataframe is None:
+        return
 
     # if choose to use dataframe, data_dict will not be in use
     if dataframe:
