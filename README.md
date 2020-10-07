@@ -12,7 +12,7 @@ Read data from an external data source, e.g. txt, Json, excel or other formats.
 
 # Main Idea
 
-Utilizing Covid-19 Dataset, and adding on with Machine Learning.
+Exploring a spam email dataset, with a machine learning component allowing further analysis and predictions to be made.
 
 # To-do/Considerations
 
