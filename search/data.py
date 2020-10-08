@@ -6,6 +6,18 @@ DEFAULT_FILENAME = "export.csv"
 
 
 def parse_data(dataset):
+    """
+    Parses the <dataset>.
+
+    Args:
+        dataset (str): A file path to the dataset.
+
+    Returns:
+        df: A Pandas dataframe.
+        data: A list of parsed data.
+        categories: A dictionary of data, {'all': data, 'spam': data_spam, 'ham': data_ham}.
+        columns: A list of column headers.
+    """
     # Parse dataset into pandas dataframe
     df = pd.read_csv(dataset, encoding="ISO-8859-1",
                     converters={i: str for i in range(0, 100)})

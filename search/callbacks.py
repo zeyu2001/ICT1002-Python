@@ -16,7 +16,14 @@ df, DATA, CATEGORIES, COLUMNS = parse_data(DATASET)
 
 def parse_json(json_data, category):
     """
-    Returns (status_code, data), where status_code = 0 if there is no error, 1 otherwise.
+    Parses the <json_data> from intermediate value.
+
+    Args:
+        json_data (str): A string of data to process in JSON format.
+        category (str): The category ('all' / 'spam' / 'ham') to extract data from.
+
+    Returns:
+        (status_code, data), where status_code = 0 if there is no error, 1 otherwise.
     """
     if json_data:
         loaded_data = json.loads(json_data)
@@ -35,7 +42,16 @@ def parse_json(json_data, category):
 
 
 def get_data(query, data):
+    """
+    Queries <data> for the specified <query>.
 
+    Args:
+        query (str): A user query.
+        data (list): A list of data to query.
+
+    Returns:
+        A list of data that satisfies the <query>.
+    """
     # Use B-M algorithm to find relevant matches
     if query:
         result = []
@@ -57,6 +73,17 @@ def get_data(query, data):
      Input("intermediate-value", "children")]
 )
 def search_data(query, category, intermediate_value):
+    """
+    Searches <intermediate_value> based on user-specified <query> and <category>.
+
+    Args:
+        query (str): A search query.
+        category (str): A category ('all' / 'spam' / 'ham').
+        intermediate_value (str): A string of data to process in JSON format.
+
+    Returns:
+        A list of matching data, and a string in the format "<length of data> items matched".
+    """
     status_code, data = parse_json(intermediate_value, category)
 
     if status_code == 1:
@@ -76,6 +103,22 @@ def search_data(query, category, intermediate_value):
      Input("intermediate-value", "children"), Input("date-slider", "value")]
 )
 def get_graph(query, category, intermediate_value, date_range):
+    """
+    Generates the following visualizations
+    - bar graph of email categories
+    - pie chart of email categories
+    - line graph of frequency of received emails
+    as Plotly graph objects.
+
+    Args:
+        query (str): A search query.
+        category (str): A category ('all' / 'spam' / 'ham').
+        intermediate_value (str): A string of data to process in JSON format.
+        date_range (list): A date range, [start_date, end_date].
+
+    Returns:
+        A bar graph, pie chart, line graph, and a string in the format "<length of data> items matched".
+    """
     status_code, data = parse_json(intermediate_value, category)
 
     if status_code == 1:
@@ -122,9 +165,9 @@ def get_graph(query, category, intermediate_value, date_range):
             date_result[date] += 1
 
     categories_sorted_data = sorted(list(categories_result.items()),
-                         key=lambda x: x[1], reverse=True)[:10]
+                                    key=lambda x: x[1], reverse=True)[:10]
     date_sorted_data = sorted(list(date_result.items()),
-                         key=lambda x: x[0])
+                              key=lambda x: x[0])
 
     categories_result = {
         'Label': [item[0] for item in categories_sorted_data],
@@ -136,9 +179,9 @@ def get_graph(query, category, intermediate_value, date_range):
     }
 
     bar_graph = px.bar(pd.DataFrame(categories_result), x='Label', y='Count',
-                 hover_data=['Label', 'Count'], color='Count',
-                 labels={'Label': 'Email Content Categories'}, height=400)
-    
+                       hover_data=['Label', 'Count'], color='Count',
+                       labels={'Label': 'Email Content Categories'}, height=400)
+
     pie = px.pie(pd.DataFrame(categories_result), values='Count', names='Label',
                  labels={'Label': "Email Content Categories", 'Count': "Number Of Emails"})
 
@@ -149,7 +192,17 @@ def get_graph(query, category, intermediate_value, date_range):
 
 
 def parse_contents(contents, filename, date):
+    """
+    Parses user-submitted dataset.
 
+    Args:
+        contents (str): A contents string generated from the user-uploaded file.
+        filename (str): The filename of the user-uploaded file.
+        date (str): The date of the user-uploaded file.
+    
+    Returns:
+        Processed data in the form of Python data structures.
+    """
     content_type, content_string = contents.split(',')
     decoded = base64.b64decode(content_string)
 
@@ -168,7 +221,18 @@ def parse_contents(contents, filename, date):
               [State('upload-data', 'filename'),
                State('upload-data', 'last_modified')])
 def update_output(list_of_contents, list_of_names, list_of_dates):
+    """
+    Updates the hidden #intermediate-value element based on the user-uploaded data.
+    If user uploads multiple files, combines the data from each file, and returns the aggregated data.
 
+    Args:
+        list_of_contents (list): A list of user-uploaded file contents.
+        list_of_names (list): A list of user-uploaded file names.
+        list_of_dates (list): A list of user-uploaded file dates.
+
+    Returns:
+        A string with data in JSON format.
+    """
     if list_of_contents is not None:
         try:
             results = [
@@ -191,5 +255,3 @@ def update_output(list_of_contents, list_of_names, list_of_dates):
             error_msg = None
 
         return json.dumps({'categories': categories, 'error': error_msg})
-
-

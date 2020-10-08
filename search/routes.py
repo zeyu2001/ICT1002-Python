@@ -54,6 +54,16 @@ app.layout = html.Div([
 @app.callback(Output('page-content', 'children'),
               [Input('url', 'pathname')])
 def display_page(pathname):
+    """
+    Displays the appropriate page layout based on the <pathname>.
+    Dash dynamically updates the #page-content element to display the correct page. No browser refresh.
+
+    Args:
+        pathname (str): A string representing the URL path.
+    
+    Returns:
+        A Dash HTML components object representing the layout of the specified URL path.
+    """
     if pathname == '/stats':
         return stats_layout
     elif pathname == '/page-2':
