@@ -124,8 +124,7 @@ def get_graph(query, category, intermediate_value, date_range):
     categories_sorted_data = sorted(list(categories_result.items()),
                          key=lambda x: x[1], reverse=True)[:10]
     date_sorted_data = sorted(list(date_result.items()),
-                         key=lambda x: x[1])
-    print(date_sorted_data)
+                         key=lambda x: x[0])
 
     categories_result = {
         'Label': [item[0] for item in categories_sorted_data],
