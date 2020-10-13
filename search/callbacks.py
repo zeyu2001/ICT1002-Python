@@ -7,6 +7,7 @@ from app import app
 from data import parse_data, DATASET
 from bm_alg import boyer_moore_match
 from dash.dependencies import Input, Output, State
+
 import plotly.express as px
 import pandas as pd
 

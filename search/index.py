@@ -103,8 +103,13 @@ button_view_statistics = dcc.Link(
     style={"display": "inline"}
 )
 
+button_export = html.Div(
+    html.Button('Export results', id='exportBtn', n_clicks=0),
+    style={"display": "inline"}
+)
+
 toolbar = html.Div(
-    [matched_count, button_view_statistics],
+    [matched_count, button_view_statistics, button_export],
     style={"margin": "10px"}
 )
 

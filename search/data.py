@@ -1,6 +1,6 @@
 import pandas as pd
 
-DATASET = "emails_updated_datetime.csv"
+DATASET = "E:\SIT\ICT1002-ProgrammingFund\project repo\ICT1002-Python\search\emails_updated_datetime.csv"
 DEFAULT_PATH = "C:\\Program Files (x86)\\SpamDetector"
 DEFAULT_FILENAME = "export.csv"
 
