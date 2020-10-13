@@ -7,7 +7,7 @@ from urllib.parse import quote as urlquote
 # we can create a route for downloading files directly:
 server = Flask(__name__)
 
-UPLOAD_DIRECTORY = "/tmp/app_uploaded_files"
+UPLOAD_DIRECTORY = "tmp/app_uploaded_files"
 
 if not os.path.exists(UPLOAD_DIRECTORY):
     os.makedirs(UPLOAD_DIRECTORY)
