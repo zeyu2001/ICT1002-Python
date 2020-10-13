@@ -104,7 +104,10 @@ button_view_statistics = dcc.Link(
 )
 
 button_export = html.Div(
-    html.Button('Export results', id='exportBtn', n_clicks=0),
+        html.A(html.Button('Export results', id='exportBtn', n_clicks=0),
+            
+        id='exportData', href='',  download=''),
+    
     style={"display": "inline"}
 )
 

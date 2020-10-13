@@ -4,10 +4,11 @@ import io
 import json
 
 from app import app
-from data import parse_data, DATASET
+from data import parse_data, DATASET, export_data
 from bm_alg import boyer_moore_match
 from dash.dependencies import Input, Output, State
 
+import dash
 import plotly.express as px
 import pandas as pd
 
@@ -256,3 +257,15 @@ def update_output(list_of_contents, list_of_names, list_of_dates):
             error_msg = None
 
         return json.dumps({'categories': categories, 'error': error_msg})
+
+# @app.callback(
+#     Output("exportData", 'href'),
+#     [Input("exportBtn", "n_clicks"),
+#     Input("table-index", "data")])
+# def export(n_clicks, data):
+
+#     ctx = dash.callback_context
+#     if ctx.triggered:
+#         export_data(data_dict=data)
+#         return 'C:/Program Files (x86)/SpamDetector/export.csv'
+
