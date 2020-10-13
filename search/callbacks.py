@@ -6,11 +6,13 @@ import json
 from app import app
 from data import parse_data, DATASET, export_data
 from bm_alg import boyer_moore_match
+from routes import save_file, download, file_download_link
 from dash.dependencies import Input, Output, State
 
 import dash
 import plotly.express as px
 import pandas as pd
+import dash_html_components as html
 
 # Initialize data for initial layout
 df, DATA, CATEGORIES, COLUMNS = parse_data(DATASET)
@@ -70,7 +72,7 @@ def get_data(query, data):
 
 
 @app.callback(
-    [Output("table-index", "data"), Output('matched-count-index', 'children')],
+    [Output("table-index", "data"), Output('matched-count-index', 'children'), Output('export-data', 'children')],
     [Input("search-index", "value"), Input("dropdown-index", "value"),
      Input("intermediate-value", "children")]
 )
@@ -93,7 +95,15 @@ def search_data(query, category, intermediate_value):
         return [], data
 
     data = get_data(query, data)
-    return data, "{} items matched.".format(len(data))
+
+    output = export_data(data_dict=data)
+    save_file('output.csv', output)
+    download_link = file_download_link('output.csv')
+    
+    anchor = html.A(html.Button('Export Results', id='exportBtn', n_clicks=0),
+    href=download_link, download=download_link)
+
+    return data, "{} items matched.".format(len(data)), anchor
 
 
 @app.callback(
@@ -218,10 +228,11 @@ def parse_contents(contents, filename, date):
     return df, data, categories, columns
 
 
-@app.callback(Output('intermediate-value', 'children'),
-              [Input('upload-data', 'contents')],
-              [State('upload-data', 'filename'),
-               State('upload-data', 'last_modified')])
+@app.callback(
+    Output('intermediate-value', 'children'),
+    [Input('upload-data', 'contents')],
+    [State('upload-data', 'filename'),
+    State('upload-data', 'last_modified')])
 def update_output(list_of_contents, list_of_names, list_of_dates):
     """
     Updates the hidden #intermediate-value element based on the user-uploaded data.
@@ -257,15 +268,3 @@ def update_output(list_of_contents, list_of_names, list_of_dates):
             error_msg = None
 
         return json.dumps({'categories': categories, 'error': error_msg})
-
-# @app.callback(
-#     Output("exportData", 'href'),
-#     [Input("exportBtn", "n_clicks"),
-#     Input("table-index", "data")])
-# def export(n_clicks, data):
-
-#     ctx = dash.callback_context
-#     if ctx.triggered:
-#         export_data(data_dict=data)
-#         return 'C:/Program Files (x86)/SpamDetector/export.csv'
-

@@ -1,8 +1,7 @@
 import pandas as pd
+from app import UPLOAD_DIRECTORY
 
-DATASET = "E:\SIT\ICT1002-ProgrammingFund\project repo\ICT1002-Python\search\emails_updated_datetime.csv"
-DEFAULT_PATH = "C:\\Program Files (x86)\\SpamDetector"
-DEFAULT_FILENAME = "export.csv"
+DATASET = "emails_updated_datetime.csv"
 
 
 def parse_data(dataset):
@@ -46,9 +45,7 @@ def parse_data(dataset):
     return df, data, categories, columns
 
 
-def export_data(data_dict=None ,dataframe=None ,path=DEFAULT_PATH, filename=DEFAULT_FILENAME, col=None):
-    # ensure there is a path to store exported file
-    fullpath = path + '\\' + filename
+def export_data(data_dict=None ,dataframe=None, col=None):
 
     # either dictionary or dataframe must be present
     if data_dict is None and dataframe is None:
@@ -57,8 +54,7 @@ def export_data(data_dict=None ,dataframe=None ,path=DEFAULT_PATH, filename=DEFA
     # if choose to use dataframe, data_dict will not be in use
     if dataframe:
         dictionary = None
-        dataframe.to_csv(fullpath, encoding="ISO-8859-1")
-        return
+        return dataframe.to_csv(None, encoding="ISO-8859-1")
 
     # if choose to use custom dict, convert to dataframe before exporting
     if data_dict:
@@ -68,5 +64,4 @@ def export_data(data_dict=None ,dataframe=None ,path=DEFAULT_PATH, filename=DEFA
         else:
             dataframe = pd.DataFrame(data_dict)
 
-        dataframe.to_csv(fullpath, encoding="ISO-8859-1")
-        return
+        return dataframe.to_csv(None, encoding="ISO-8859-1")

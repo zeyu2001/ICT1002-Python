@@ -1,9 +1,33 @@
-from app import app
+from app import app, server, UPLOAD_DIRECTORY
+from flask import send_from_directory
+from urllib.parse import quote as urlquote
 from index import index_layout
 from stats import stats_layout
 import dash_html_components as html
 import dash_core_components as dcc
 from dash.dependencies import Input, Output
+
+import base64
+import os
+
+
+def save_file(name, content):
+    """Store a file on the Dash server."""
+    with open(os.path.join(UPLOAD_DIRECTORY, name), "wb") as fp:
+        fp.write(content.encode('utf-8'))
+
+
+@server.route("/download/<path:path>")
+def download(path):
+    """Serve a file from the upload directory."""
+    return send_from_directory(UPLOAD_DIRECTORY, path, as_attachment=True)
+
+
+def file_download_link(filename):
+    """Create a Plotly Dash 'A' element that downloads a file from the app."""
+    location = "/download/{}".format(urlquote(filename))
+    return location
+
 
 heading = html.Header(
     html.H1(
@@ -37,7 +61,8 @@ upload = dcc.Upload(
 )
 
 # Trick to share data between callbacks
-intermediate_value = html.Div(id='intermediate-value', style={'display': 'none'})
+intermediate_value = html.Div(
+    id='intermediate-value', style={'display': 'none'})
 
 # Dynamic app layout based on URL
 app.layout = html.Div([
@@ -45,7 +70,7 @@ app.layout = html.Div([
     heading,
     upload,
     intermediate_value,
-    
+
     # The only part that changes
     html.Div(id='page-content')
 ])
@@ -60,7 +85,7 @@ def display_page(pathname):
 
     Args:
         pathname (str): A string representing the URL path.
-    
+
     Returns:
         A Dash HTML components object representing the layout of the specified URL path.
     """
