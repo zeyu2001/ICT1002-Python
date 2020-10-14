@@ -1,4 +1,4 @@
-from app import app, server, UPLOAD_DIRECTORY
+from app import app, server, FILE_DIRECTORY
 from flask import send_from_directory
 from urllib.parse import quote as urlquote
 from index import index_layout
@@ -13,14 +13,14 @@ import os
 
 def save_file(name, content):
     """Store a file on the Dash server."""
-    with open(os.path.join(UPLOAD_DIRECTORY, name), "wb") as fp:
+    with open(os.path.join(FILE_DIRECTORY, name), "wb") as fp:
         fp.write(content.encode('utf-8'))
 
 
 @server.route("/download/<path:path>")
 def download(path):
-    """Serve a file from the upload directory."""
-    return send_from_directory(UPLOAD_DIRECTORY, path, as_attachment=True)
+    """Serve a file from the file directory."""
+    return send_from_directory(FILE_DIRECTORY, path, as_attachment=True)
 
 
 def file_download_link(filename):

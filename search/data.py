@@ -1,5 +1,4 @@
 import pandas as pd
-from app import UPLOAD_DIRECTORY
 
 DATASET = "emails_updated_datetime.csv"
 

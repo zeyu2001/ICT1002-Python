@@ -7,10 +7,10 @@ from urllib.parse import quote as urlquote
 # we can create a route for downloading files directly:
 server = Flask(__name__)
 
-UPLOAD_DIRECTORY = "tmp/app_uploaded_files"
+FILE_DIRECTORY = "temp/app_files"
 
-if not os.path.exists(UPLOAD_DIRECTORY):
-    os.makedirs(UPLOAD_DIRECTORY)
+if not os.path.exists(FILE_DIRECTORY):
+    os.makedirs(FILE_DIRECTORY)
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = dash.Dash(server=server, external_stylesheets=external_stylesheets)
