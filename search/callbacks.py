@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import base64
 import datetime
 import io
@@ -73,7 +75,7 @@ def get_data(query, data):
 
 @app.callback(
     [Output("table-index", "data"), Output('matched-count-index', 'children'), Output('export-data', 'children')],
-    [Input("search-index", "value"), Input("dropdown-index", "value"),
+    [Input("search", "value"), Input("dropdown", "value"),
      Input("intermediate-value", "children")]
 )
 def search_data(query, category, intermediate_value):
@@ -110,8 +112,9 @@ def search_data(query, category, intermediate_value):
     [Output("bar-graph-stats", "figure"),
      Output("pie-stats", "figure"),
      Output("line-graph-stats", "figure"),
-     Output('matched-count-stats', 'children')],
-    [Input("search-stats", "value"), Input("dropdown-stats", "value"),
+     Output('matched-count-stats', 'children'),
+     Output('export-charts', 'children')],
+    [Input("search", "value"), Input("dropdown", "value"),
      Input("intermediate-value", "children"), Input("date-slider", "value")]
 )
 def get_graph(query, category, intermediate_value, date_range):
@@ -200,7 +203,18 @@ def get_graph(query, category, intermediate_value, date_range):
     line_graph = px.line(pd.DataFrame(date_result), x="Dates", y="Count",
                          title="Number of Emails sent on Each Day")
 
-    return bar_graph, pie, line_graph, "{} items matched.".format(len(data))
+    output = (
+        bar_graph.to_html(full_html=False, include_plotlyjs='cdn') +
+        pie.to_html(full_html=False, include_plotlyjs='cdn') +
+        line_graph.to_html(full_html=False, include_plotlyjs='cdn')
+    )
+    save_file('stats_output.html', output)
+    download_link = file_download_link('stats_output.html')
+    
+    anchor = html.A(html.Button('Export Results', id='exportBtn', n_clicks=0),
+    href=download_link, download=download_link)
+
+    return bar_graph, pie, line_graph, "{} items matched.".format(len(data)), anchor
 
 
 def parse_contents(contents, filename, date):
@@ -268,3 +282,51 @@ def update_output(list_of_contents, list_of_names, list_of_dates):
             error_msg = None
 
         return json.dumps({'categories': categories, 'error': error_msg})
+
+
+@app.callback(
+    [Output('page-header', 'children'), 
+    Output('upload-data', 'children'), 
+    Output('toggle-language', 'children'),
+    Output('search', 'placeholder'),
+    Output('dropdown', 'options')],
+    Input('toggle-language', 'n_clicks'), 
+    State('toggle-language', 'children')
+)
+def toggle_language(n_clicks, target_lang):
+    """
+    Toggles the language between English and Chinese.
+
+    Args:
+        n_clicks (int): Number of times the button has been clicked.
+        target_lang (str): The target language to change to (children attribute of #toggle-language element)
+    """
+    if target_lang == '中文' and n_clicks:
+        header_children = '垃圾邮件分类器数据集'
+        upload_data_children = html.Div([
+            '拖放',
+            html.A('或选择自己的数据集')
+        ])
+        toggle_language_children = 'English'
+        search_placeholder = '搜索'
+        dropdown_options = [
+            {'label': '所有邮件', 'value': 'all'},
+            {'label': '垃圾邮件', 'value': 'spam'},
+            {'label': '非垃圾邮件', 'value': 'ham'}
+        ]
+
+    elif target_lang == 'English' or not n_clicks:
+        header_children = 'Spam Classifier Dataset'
+        upload_data_children = html.Div([
+            'Drag and Drop or ',
+            html.A('Select Your Own Datasets')
+        ])
+        toggle_language_children = '中文'
+        search_placeholder = 'Search'
+        dropdown_options = [
+            {'label': 'All', 'value': 'all'},
+            {'label': 'Spam', 'value': 'spam'},
+            {'label': 'Not Spam', 'value': 'ham'}
+        ]
+    
+    return header_children, upload_data_children, toggle_language_children, search_placeholder, dropdown_options

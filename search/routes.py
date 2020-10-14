@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from app import app, server, FILE_DIRECTORY
 from flask import send_from_directory
 from urllib.parse import quote as urlquote
@@ -37,8 +39,14 @@ heading = html.Header(
             "margin": "10px",
             "font-weight": "lighter",
             "font-size": "300%"
-        }
-    )
+        },
+        id='page-header'
+    ),
+)
+
+toggle_language = html.Button(
+    '中文',
+    id='toggle-language',
 )
 
 upload = dcc.Upload(
@@ -60,6 +68,54 @@ upload = dcc.Upload(
     multiple=True
 )
 
+search_bar = dcc.Input(
+    id="search",
+    type='text',
+    placeholder="Search",
+    style={
+        "width": "100%",
+        "margin": "10px",
+        "height": "30px"
+    }
+)
+
+dropdown = dcc.Dropdown(
+    id='dropdown',
+    options=[
+        {'label': 'All', 'value': 'all'},
+        {'label': 'Spam', 'value': 'spam'},
+        {'label': 'Not Spam', 'value': 'ham'}
+    ],
+    value='all',
+    style={
+        "margin": "10px",
+        "height": "30px"}
+)
+
+user_input = html.Div(
+    [
+        html.Div(
+            search_bar,
+            style={
+                "width": '68%',
+                "display": 'table-cell',
+            },
+        ),
+        html.Div(
+            dropdown,
+            style={
+                "width": '30%',
+                "display": 'table-cell',
+            },
+        ),
+    ],
+    style={
+        "width": '100%',
+        "display": 'table',
+        "margin": "10px"
+    }
+)
+
 # Trick to share data between callbacks
 intermediate_value = html.Div(
     id='intermediate-value', style={'display': 'none'})
@@ -68,7 +124,9 @@ intermediate_value = html.Div(
 app.layout = html.Div([
     dcc.Location(id='url', refresh=False),
     heading,
+    toggle_language,
     upload,
+    user_input,
     intermediate_value,
 
     # The only part that changes

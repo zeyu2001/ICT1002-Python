@@ -27,20 +27,14 @@ button_back = dcc.Link(
     style={"display": "inline"}
 )
 
-toolbar = html.Div(
-    [matched_count, button_back],
-    style={"margin": "10px"}
+button_export = html.Div(
+    id='export-charts',
+    style={"display": "inline"},
 )
 
-search_bar = dcc.Input(
-    id="search-stats",
-    type='text',
-    placeholder="Search",
-    style={
-        "width": "100%",
-        "margin": "10px",
-        "height": "30px"
-    }
+toolbar = html.Div(
+    [matched_count, button_back, button_export],
+    style={"margin": "10px"}
 )
 
 date_picker = dcc.RangeSlider(
@@ -53,46 +47,8 @@ date_picker = dcc.RangeSlider(
     value=[3, 5]
 )
 
-dropdown = dcc.Dropdown(
-    id='dropdown-stats',
-    options=[
-        {'label': 'All', 'value': 'all'},
-        {'label': 'Spam', 'value': 'spam'},
-        {'label': 'Not Spam', 'value': 'ham'}
-    ],
-    value='all',
-    style={
-        "margin": "10px",
-        "height": "30px"}
-)
-
-user_input = html.Div(
-    [
-        html.Div(
-            search_bar,
-            style={
-                "width": '68%',
-                "display": 'table-cell',
-            },
-        ),
-        html.Div(
-            dropdown,
-            style={
-                "width": '30%',
-                "display": 'table-cell',
-            },
-        ),
-    ],
-    style={
-        "width": '100%',
-        "display": 'table',
-        "margin": "10px"
-    }
-)
-
 stats_layout = html.Div(
     [
-        user_input,
         toolbar,
         heading_2,
         date_picker,
@@ -104,4 +60,3 @@ stats_layout = html.Div(
         "font-family": 'Palatino, "Palatino Linotype", "Palatino LT STD"',
     }
 )
-
