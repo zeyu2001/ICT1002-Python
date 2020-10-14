@@ -92,18 +92,18 @@ def search_data(query, category, intermediate_value):
     """
     status_code, data = parse_json(intermediate_value, category)
 
+    download_link = file_download_link('output.csv')
+    anchor = html.A(html.Button('Export Results', id='exportBtn', n_clicks=0),
+        href=download_link, download=download_link)
+
     if status_code == 1:
         # Display empty table, and show the error message
-        return [], data
+        return [], data, anchor
 
     data = get_data(query, data)
 
     output = export_data(data_dict=data)
     save_file('output.csv', output)
-    download_link = file_download_link('output.csv')
-    
-    anchor = html.A(html.Button('Export Results', id='exportBtn', n_clicks=0),
-    href=download_link, download=download_link)
 
     return data, "{} items matched.".format(len(data)), anchor
 
@@ -136,6 +136,10 @@ def get_graph(query, category, intermediate_value, date_range):
     """
     status_code, data = parse_json(intermediate_value, category)
 
+    download_link = file_download_link('stats_output.html')
+    anchor = html.A(html.Button('Export Results', id='exportBtn', n_clicks=0),
+        href=download_link, download=download_link)
+
     if status_code == 1:
         # Display empty figure, and show the error message
         empty_fig = {
@@ -159,7 +163,7 @@ def get_graph(query, category, intermediate_value, date_range):
                 ]
             }
         }
-        return empty_fig, data
+        return empty_fig, empty_fig, empty_fig, data, anchor
 
     data = get_data(query, data)
     categories_result = {}
@@ -209,10 +213,6 @@ def get_graph(query, category, intermediate_value, date_range):
         line_graph.to_html(full_html=False, include_plotlyjs='cdn')
     )
     save_file('stats_output.html', output)
-    download_link = file_download_link('stats_output.html')
-    
-    anchor = html.A(html.Button('Export Results', id='exportBtn', n_clicks=0),
-    href=download_link, download=download_link)
 
     return bar_graph, pie, line_graph, "{} items matched.".format(len(data)), anchor
 
