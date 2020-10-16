@@ -40,7 +40,7 @@ search/
 - `index.py`: Layout for / (homepage)
 - `stats.py`: Layout for /stats
 - `callbacks.py`: Defines callback functions for the Dash app. This is how the application is able to dynamically update its content (tables, graphs, etc.) based on the user input (search bar, dropdown, etc.)
-- `data.py`: Extracts data from the dataset using pandas
+- `data.py`: Extracts data from the dataset using pandas, exports data using pandas also
 - `bm_alg.py`: The search algorithm. Time complexity is O(m+n) if pattern does not appear in the text, O(mn) if pattern does appear in the text
 
 # Todo

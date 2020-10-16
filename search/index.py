@@ -1,8 +1,11 @@
-from data import df, DATA, COLUMNS
+from data import parse_data, DATASET
 import dash_html_components as html
 import dash_core_components as dcc
 import dash_table as dt
 import pandas as pd
+
+# Initialize data for initial layout
+df, DATA, CATEGORIES, COLUMNS = parse_data(DATASET)
 
 PIXEL_FOR_CHAR = 5
 
@@ -17,30 +20,6 @@ def create_conditional_style(df):
 
     return style
 
-
-heading = html.Header(
-    html.H1(
-        "Spam Classifier Dataset",
-        style={
-            "text-align": "center",
-            "margin": "10px",
-            "font-weight": "lighter",
-            "font-size": "300%"
-        }
-    )
-)
-
-search_bar = dcc.Input(
-    id="search-index",
-    type='text',
-    placeholder="Search",
-    style={
-        "width": "100%",
-        "margin": "10px",
-        "height": "30px"
-    }
-)
-
 table = dt.DataTable(
     fixed_columns={'headers': True, 'data': 3},
     style_table={'minWidth': '100%'},
@@ -53,7 +32,8 @@ table = dt.DataTable(
     },
     id='table-index',
     columns=COLUMNS,
-    data=DATA
+    data=DATA,
+    sort_action="native"
 )
 
 loading_wrapper_table = dcc.Loading(
@@ -62,64 +42,28 @@ loading_wrapper_table = dcc.Loading(
     children=[table]
 )
 
-dropdown = dcc.Dropdown(
-    id='dropdown-index',
-    options=[
-        {'label': 'All', 'value': 'all'},
-        {'label': 'Spam', 'value': 'spam'},
-        {'label': 'Not Spam', 'value': 'ham'}
-    ],
-    value='all',
-    style={
-        "margin": "10px",
-        "height": "30px"}
-)
-
-user_input = html.Div(
-    [
-        html.Div(
-            search_bar,
-            style={
-                "width": '68%',
-                "display": 'table-cell',
-            },
-        ),
-        html.Div(
-            dropdown,
-            style={
-                "width": '30%',
-                "display": 'table-cell',
-            },
-        ),
-    ],
-    style={
-        "width": '100%',
-        "display": 'table',
-        "margin": "10px"
-    }
-)
-
-
 matched_count = html.P(
     id='matched-count-index',
     style={"margin": "10px", "display": "inline"}
 )
-
 
 button_view_statistics = dcc.Link(
     html.Button('View Statistics'), href="/stats",
     style={"display": "inline"}
 )
 
+button_export = html.Div(
+    id='export-data',
+    style={"display": "inline"},
+)
+
 toolbar = html.Div(
-    [matched_count, button_view_statistics],
+    [matched_count, button_view_statistics, button_export],
     style={"margin": "10px"}
 )
 
 index_layout = html.Div(
     [
-        heading,
-        user_input,
         toolbar,
         html.Div(loading_wrapper_table),
     ],
