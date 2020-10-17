@@ -11,7 +11,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 DATA_DIR = 'data/'
 
-MODEL_PATH = 'models/20200925163152_spam_classifier.h5'
+MODEL_PATH = os.path.dirname(os.path.abspath(__file__)) + '/models/20200925163152_spam_classifier.h5'
 
 EMBED_SIZE = 100 # word vector size
 MAX_FEATURE = 50000 # number of unique words
@@ -57,13 +57,15 @@ def clean_pipeline(sentence):
     return sentence
 
 ### END HELPER FUNCTIONS ###
+MODEL = load_model(MODEL_PATH, compile = True)
 
-def predict(text):
+def predict(text, model):
     """
     Predicts whether <text> is spam or ham.
 
     Args:
         text (list): A list of text to predict.
+        model: A model to use.
 
     Returns:
         A list of predictions
@@ -77,8 +79,6 @@ def predict(text):
 
     x_features = pad_sequences(np.array(tokenizer.texts_to_sequences(x)), maxlen=MAX_LEN)
 
-    model = load_model(MODEL_PATH, compile = True)
-
     predictions = model.predict(x_features)
     predictions = [0 if output < 0.5 else 1 for output in predictions]
 
@@ -91,5 +91,5 @@ if __name__ == '__main__':
     data = pd.read_csv('emails.csv')
     text = data['text']
 
-    predictions = predict(text)
+    predictions = predict(text, MODEL)
     print(predictions)

@@ -9,6 +9,7 @@ from app import app
 from data import parse_data, DATASET, export_data
 from bm_alg import boyer_moore_match
 from routes import save_file, download, file_download_link
+from predict_input import predict, MODEL
 from dash.dependencies import Input, Output, State
 
 import dash
@@ -330,3 +331,20 @@ def toggle_language(n_clicks, target_lang):
         ]
     
     return header_children, upload_data_children, toggle_language_children, search_placeholder, dropdown_options
+
+
+@app.callback(
+    Output('predict-output', 'data'),
+    Input('predict-input', 'value'),
+    State('predict-output', 'data')
+)
+def predict_user_input(email, curr_data):
+    if email:
+        result = curr_data
+        email = [email]
+        prediction = predict(email, MODEL)[0]
+        prediction = 'Spam' if prediction else 'Not Spam'
+        result = [{'Spam': prediction, 'Text': email}] + result
+        return result
+    else:
+        return []

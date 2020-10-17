@@ -20,8 +20,9 @@ def create_conditional_style(df):
 
     return style
 
+
 table = dt.DataTable(
-    fixed_columns={'headers': True, 'data': 3},
+    fixed_columns={'headers': True, 'data': 4},
     style_table={'minWidth': '100%'},
     style_data_conditional=create_conditional_style(df),
     style_cell={
@@ -49,12 +50,12 @@ matched_count = html.P(
 
 button_view_statistics = dcc.Link(
     html.Button('View Statistics'), href="/stats",
-    style={"display": "inline"}
+    style={"display": "inline", "margin": "10px"}
 )
 
 button_export = html.Div(
     id='export-data',
-    style={"display": "inline"},
+    style={"display": "inline", "margin": "10px"},
 )
 
 toolbar = html.Div(

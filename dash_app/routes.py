@@ -5,6 +5,7 @@ from flask import send_from_directory
 from urllib.parse import quote as urlquote
 from index import index_layout
 from stats import stats_layout
+from predict import predict_layout
 import dash_html_components as html
 import dash_core_components as dcc
 from dash.dependencies import Input, Output
@@ -33,7 +34,7 @@ def file_download_link(filename):
 
 heading = html.Header(
     html.H1(
-        "Spam Classifier Dataset",
+        "Spam Classifier",
         style={
             "text-align": "center",
             "margin": "10px",
@@ -47,6 +48,11 @@ heading = html.Header(
 toggle_language = html.Button(
     '中文',
     id='toggle-language',
+)
+
+button_predict = dcc.Link(
+    html.Button('Classify Spam'), href="/predict",
+    style={"display": "inline", "margin": "10px"}
 )
 
 upload = dcc.Upload(
@@ -120,21 +126,26 @@ user_input = html.Div(
 intermediate_value = html.Div(
     id='intermediate-value', style={'display': 'none'})
 
+dataset_top = [
+    heading,
+    toggle_language,
+    button_predict,
+    upload,
+    user_input,
+    intermediate_value
+]
+
+classifier_top = heading
+
 # Dynamic app layout based on URL
 app.layout = html.Div([
     dcc.Location(id='url', refresh=False),
-    heading,
-    toggle_language,
-    upload,
-    user_input,
-    intermediate_value,
-
-    # The only part that changes
+    html.Div(id='page-top'),
     html.Div(id='page-content')
 ])
 
 
-@app.callback(Output('page-content', 'children'),
+@app.callback([Output('page-top', 'children'), Output('page-content', 'children')],
               [Input('url', 'pathname')])
 def display_page(pathname):
     """
@@ -148,6 +159,8 @@ def display_page(pathname):
         A Dash HTML components object representing the layout of the specified URL path.
     """
     if pathname == '/stats':
-        return stats_layout
+        return dataset_top, stats_layout
+    elif pathname == '/predict':
+        return classifier_top, predict_layout
     else:
-        return index_layout
+        return dataset_top, index_layout

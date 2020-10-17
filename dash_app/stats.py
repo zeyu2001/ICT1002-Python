@@ -24,12 +24,12 @@ matched_count = html.P(
 
 button_back = dcc.Link(
     html.Button('Back'), href="/",
-    style={"display": "inline"}
+    style={"display": "inline", "margin": "10px"}
 )
 
 button_export = html.Div(
     id='export-charts',
-    style={"display": "inline"},
+    style={"display": "inline", "margin": "10px"},
 )
 
 toolbar = html.Div(
