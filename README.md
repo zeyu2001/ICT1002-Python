@@ -59,34 +59,33 @@ A WSGI server should be used instead. Simple-to-use, affordable solutions includ
 ├── LICENSE
 ├── README.md
 ├── classifier
-│   ├── data
-│   │   ├── x_test.npy
-│   │   ├── x_train.npy
-│   │   ├── y_test.npy
-│   │   └── y_train.npy
-│   ├── emails.csv
-│   ├── exec.py
-│   ├── main.py
-│   ├── metrics
-│   │   └── 20200925163152_plot.png
-│   ├── models
-│   │   └── 20200925163152_spam_classifier.h5
-│   ├── predict_input.py
-│   └── process_data.py
+│   ├── data
+│   │   ├── x_test.npy
+│   │   ├── x_train.npy
+│   │   ├── y_test.npy
+│   │   └── y_train.npy
+│   ├── emails.csv
+│   ├── exec.py
+│   ├── metrics
+│   │   └── 20200925163152_plot.png
+│   ├── models
+│   │   └── 20200925163152_spam_classifier.h5
+│   ├── predict_input.py
+│   └── process_data.py
 ├── dash_app
-│   ├── app.py
-│   ├── bm_alg.py
-│   ├── callbacks.py
-│   ├── data.py
-│   ├── emails.csv
-│   ├── index.py
-│   ├── predict.py
-│   ├── routes.py
-│   ├── stats.py
-│   └── temp
-│       └── app_files
-│           ├── output.csv
-│           └── stats_output.html
+│   ├── app.py
+│   ├── bm_alg.py
+│   ├── callbacks.py
+│   ├── data.py
+│   ├── emails.csv
+│   ├── index.py
+│   ├── predict.py
+│   ├── routes.py
+│   ├── stats.py
+│   └── temp
+│       └── app_files
+│           ├── output.csv
+│           └── stats_output.html
 ├── requirements.txt
 └── runserver.py
 ```
