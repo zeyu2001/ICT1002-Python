@@ -1,0 +1,11 @@
+pandas==1.1.2
+matplotlib==3.3.1
+numpy==1.19.0
+dash==1.16.3
+dash_core_components==1.12.1
+dash_html_components==1.1.1
+dash_table==4.10.1
+Flask==1.1.2
+keras==2.4.3
+plotly==4.11.0
+tensorflow==2.3.1
