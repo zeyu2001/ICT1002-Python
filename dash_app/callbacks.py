@@ -207,6 +207,7 @@ def get_graph(query, category, intermediate_value, date_range):
 
     line_graph = px.line(pd.DataFrame(date_result), x="Dates", y="Count",
                          title="Number of Emails sent on Each Day")
+    line_graph.update_layout(xaxis={'type': 'category'})
 
     output = (
         bar_graph.to_html(full_html=False, include_plotlyjs='cdn') +

@@ -44,7 +44,7 @@ date_picker = dcc.RangeSlider(
     allowCross=False,
     min=1,
     max=6,
-    value=[3, 5]
+    value=[2, 5]
 )
 
 stats_layout = html.Div(
