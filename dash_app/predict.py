@@ -3,19 +3,6 @@ import dash_core_components as dcc
 import dash_table as dt
 import pandas as pd
 
-PIXEL_FOR_CHAR = 5
-
-
-def create_conditional_style(df):
-    style = []
-    for col in df.columns[:-1]:
-        name_length = len(col)
-        pixel = 50 + round(name_length * PIXEL_FOR_CHAR)
-        pixel = str(pixel) + "px"
-        style.append({'if': {'column_id': col}, 'minWidth': pixel})
-
-    return style
-
 
 heading_2 = html.Header(
     html.H2(
@@ -30,7 +17,7 @@ heading_2 = html.Header(
 
 para = html.P(
     "Welcome to the spam classifier! Enter the email you wish to classify below:",
-    style={"margin": "10px", "font-weight": "lighter",}
+    style={"margin": "10px", "font-weight": "lighter", }
 )
 
 heading_3_1 = html.H2(
@@ -75,13 +62,13 @@ df = pd.DataFrame({'Spam': [], 'Text': []})
 
 output = dt.DataTable(
     fixed_columns={'headers': True, 'data': 1},
-    style_data_conditional=create_conditional_style(df),
-    style_table={'minWidth': '100%'},
+    style_table={
+        'minWidth': '100%'
+    },
     style_cell={
-        'textAlign': 'left',
         'minWidth': '100%',
-        'overflow': 'hidden',
-        'textOverflow': 'ellipsis',
+        'textAlign': 'left',
+        'overflowY': 'scroll'
     },
     id='predict-output',
     columns=[{"name": i, "id": i} for i in df.columns],
