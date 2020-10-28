@@ -32,9 +32,18 @@ class last_occurrence(object):
         return self.occurrences[letter]
 
 
-    
 def boyer_moore_match(text, pattern):
-    """Find occurrence of pattern in text. If pattern is not found in text, return -1, if pattern is found, returns the start of the index."""
+    """
+    Find occurrence of pattern in text. If pattern is not found in text, return -1.
+    If pattern is found, returns the start of the index.
+
+    Args:
+        text (str): A string of text.
+        pattern (str): A pattern to find within <text>.
+
+    Returns: 
+        Starting index of the pattern if pattern is found, else -1.
+    """
     alphabet = set(text)
     last = last_occurrence(pattern, alphabet)
     m = len(pattern)
@@ -55,6 +64,39 @@ def boyer_moore_match(text, pattern):
     return -1
 
 
+def naive_match(text, pattern):
+    """
+    Naive implementation of a substring search algorithm. Time complexity is O(mn).
+    Find occurrence of pattern in text. If pattern is not found in text, return -1.
+    If pattern is found, returns the start of the index.
+
+    Args:
+        text (str): A string of text.
+        pattern (str): A pattern to find within <text>.
+
+    Returns: 
+        Starting index of the pattern if pattern is found, else -1.
+    """
+    M = len(pattern)
+    N = len(text)
+
+    # A loop to slide pat[] one by one */
+    for i in range(N - M + 1):
+        j = 0
+
+        # For current index i, check
+        # for pattern match */
+        while(j < M):
+            if (text[i + j] != pattern[j]):
+                break
+            j += 1
+
+        if (j == M):
+            return i
+
+    return -1
+
+
 def tests():
     try:
         assert boyer_moore_match("abcd", "cd") == 2
@@ -62,4 +104,9 @@ def tests():
         assert boyer_moore_match("ICT1002", "ICT") == 0
     except AssertionError:
         print("Something went wrong...")
-    
+
+    print('Test Cases Passed.')
+
+
+if __name__ == '__main__':
+    tests()
