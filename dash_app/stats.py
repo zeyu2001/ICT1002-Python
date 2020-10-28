@@ -39,11 +39,11 @@ toolbar = html.Div(
 
 date_picker = dcc.RangeSlider(
     id="date-slider",
-    marks={date: "{}/10/2020".format(date) for date in range(1, 8)},
+    marks={date: "{}/10/2020".format(date) for date in range(1, 7)},
     updatemode="mouseup",
     allowCross=False,
     min=1,
-    max=7,
+    max=6,
     value=[3, 5]
 )
 
