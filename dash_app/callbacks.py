@@ -174,7 +174,7 @@ def get_graph(query, category, intermediate_value, date_range):
     for row in data:
         date = row["Datetime"].split()[0]
 
-        if int(date[-1]) in range(start_date, end_date):
+        if int(date[-1]) in range(start_date, end_date+1):
             label = row['Label'].split('>')[0]
 
             if not label == 'Uncategorized':
