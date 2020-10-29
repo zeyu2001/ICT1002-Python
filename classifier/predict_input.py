@@ -6,6 +6,7 @@ import re
 import os
 from keras.preprocessing.text import Tokenizer
 from keras.preprocessing.sequence import pad_sequences
+from process_data import tokenizer
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
@@ -73,9 +74,6 @@ def predict(text, model):
     cleaned_text_array = np.array([clean_pipeline(sentence) for sentence in text])
 
     x = cleaned_text_array
-
-    tokenizer = Tokenizer(num_words=MAX_FEATURE)
-    tokenizer.fit_on_texts(x)
 
     x_features = pad_sequences(np.array(tokenizer.texts_to_sequences(x)), maxlen=MAX_LEN)
 
