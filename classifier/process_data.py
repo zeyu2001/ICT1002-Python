@@ -7,8 +7,9 @@ from keras.preprocessing.text import Tokenizer
 from keras.preprocessing.sequence import pad_sequences
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+DATASET = os.path.dirname(os.path.abspath(__file__)) + "/emails.csv"
 
-data = pd.read_csv('emails.csv')
+data = pd.read_csv(DATASET)
 
 text = data['text']
 labels = data['spam']
