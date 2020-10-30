@@ -1,3 +1,8 @@
+"""
+Comparison between the efficiency of the Boyer-Moore algorithm and the naive substring search algorithm.
+The runtimes for both algorithms are plotted on the same axes.
+"""
+
 import matplotlib.pyplot as plt
 import numpy as np
 import string

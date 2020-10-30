@@ -1,3 +1,9 @@
+"""
+Processes data from the dataset. Processes data from the dataset, removing irrelevant data in the spam text including 
+punctuation, stop words, hyperlinks, etc. and representing the data as a feature matrix that allows the model 
+architecture to effectively extract relationships between the sequence data and resulting label.
+"""
+
 import pandas as pd
 import numpy as np
 import string

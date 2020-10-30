@@ -1,3 +1,7 @@
+"""
+Trains and saves the classifier model.
+"""
+
 import os
 from datetime import datetime
 import numpy as np
@@ -14,11 +18,11 @@ METRICS_DIR = 'metrics/'
 DIRS = (DATA_DIR, MODEL_DIR, METRICS_DIR)
 
 for directory in DIRS:
-        if not os.path.exists(directory):
-            os.makedirs(directory)
+    if not os.path.exists(directory):
+        os.makedirs(directory)
 
-MAX_FEATURE = 50000 # number of unique words
-MAX_LEN = 2000 # maximum number of words to use
+MAX_FEATURE = 50000  # number of unique words
+MAX_LEN = 2000  # maximum number of words to use
 EMBEDDING_VECTOR_LENGTH = 32
 
 TRAIN_PARAMS = {"batch_size": 512, "epochs": 20}
@@ -30,13 +34,13 @@ y_test = np.load(f'{DATA_DIR}/y_test.npy')
 
 classifier = Sequential(
     [
-        Embedding(MAX_FEATURE, EMBEDDING_VECTOR_LENGTH, input_length=MAX_LEN), # input_dim, output_dim
+        Embedding(MAX_FEATURE, EMBEDDING_VECTOR_LENGTH, input_length=MAX_LEN),  # input_dim, output_dim
         Bidirectional(LSTM(64)),
         Dense(16, activation='relu'),
         Dropout(0.1),
         Dense(1, activation='sigmoid'),
     ]
-    )
+)
 
 classifier.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
 
@@ -59,4 +63,3 @@ if __name__ == '__main__':
     plt.legend(['train', 'test'], loc='upper left')
     plt.grid()
     plt.savefig(f'{METRICS_DIR}{accplot_filename}')
-

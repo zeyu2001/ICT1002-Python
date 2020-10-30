@@ -1,7 +1,12 @@
+"""
+Extract data from the dataset/export data from the dataset using pandas.
+"""
+
 import pandas as pd
 import os
 
 DATASET = os.path.dirname(os.path.abspath(__file__)) + "/emails.csv"
+
 
 def parse_data(dataset):
     """
@@ -18,13 +23,13 @@ def parse_data(dataset):
     """
     # Parse dataset into pandas dataframe
     df = pd.read_csv(dataset, encoding="ISO-8859-1",
-                    converters={i: str for i in range(0, 100)})
+                     converters={i: str for i in range(0, 100)})
     # reorganize columns
     df = df[['Datetime', 'Spam', 'Label', 'Relevance', 'Text']]
 
     # convert dataframe into a list of dict
     data = df.to_dict('records')
-    
+
     # list of dictionaries containing spam email
     data_spam = [item for item in data if item['Spam'] == '1']
     # list of dictionaries containing non-spam email
@@ -44,7 +49,7 @@ def parse_data(dataset):
     return df, data, categories, columns
 
 
-def export_data(data_dict=None ,dataframe=None, col=None):
+def export_data(data_dict=None, dataframe=None, col=None):
 
     # either dictionary or dataframe must be present
     if data_dict is None and dataframe is None:

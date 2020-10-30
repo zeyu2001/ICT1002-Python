@@ -1,3 +1,8 @@
+"""
+Defines callback functions for the Dash app. This is how the application is able to dynamically update its content 
+(tables, graphs, etc.) based on the user input (search bar, dropdown, etc.).
+"""
+
 # -*- coding: utf-8 -*-
 
 import base64

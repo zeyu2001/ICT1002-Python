@@ -1,3 +1,9 @@
+"""
+Specifies the routes (URLs) of the application. The application is multi-paged, but the browser does not need to 
+refresh. The content is dynamically updated here. Also defines the functions and request handlers to serve local files, 
+allowing the user to download exported results.
+"""
+
 # -*- coding: utf-8 -*-
 
 from app import app, server, FILE_DIRECTORY
@@ -140,8 +146,8 @@ classifier_top = heading
 # Dynamic app layout based on URL
 app.layout = html.Div([
     dcc.Location(id='url', refresh=False),
-    html.Div(id='page-top'),
-    html.Div(id='page-content')
+    html.Div(id='page-top', style={"font-family": 'Palatino, "Palatino Linotype", "Palatino LT STD"'}),
+    html.Div(id='page-content', style={"font-family": 'Palatino, "Palatino Linotype", "Palatino LT STD"'})
 ])
 
 

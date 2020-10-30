@@ -1,3 +1,7 @@
+"""
+Defines the Dash application.
+"""
+
 import dash
 from flask import Flask
 import os

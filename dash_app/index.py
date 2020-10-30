@@ -1,3 +1,7 @@
+"""
+Layout for '/' (homepage)
+"""
+
 from data import parse_data, DATASET
 import dash_html_components as html
 import dash_core_components as dcc

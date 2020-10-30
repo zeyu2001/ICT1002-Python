@@ -1,3 +1,7 @@
+"""
+Predicts whether emails are spam, using a loaded model. Allows integration of the model into the Dash application.
+"""
+
 from tensorflow.keras.models import save_model, load_model
 import pandas as pd
 import numpy as np
@@ -13,6 +17,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 DATA_DIR = 'data/'
 
 MODEL_PATH = os.path.dirname(os.path.abspath(__file__)) + '/models/20200925163152_spam_classifier.h5'
+DATASET = os.path.dirname(os.path.abspath(__file__)) + "/emails.csv"
 
 EMBED_SIZE = 100 # word vector size
 MAX_FEATURE = 50000 # number of unique words
@@ -86,7 +91,7 @@ def predict(text, model):
 if __name__ == '__main__':
 
     # Test on the email dataset
-    data = pd.read_csv('emails.csv')
+    data = pd.read_csv(DATASET)
     text = data['text']
 
     predictions = predict(text, MODEL)

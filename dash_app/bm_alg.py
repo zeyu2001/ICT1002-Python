@@ -1,14 +1,9 @@
 """
-WHY BOYER-MOORE ALGORITHM?
+Implementation of the Boyer-Moore substring search algorithm, as well as the naive algorithm for comparison.
 
 Boyer-Moore's approach is to try to match the last character of the pattern instead of the first one with the 
-assumption that if there's not match at the end no need to try to match at the beginning. This allows for "big jumps" 
+assumption that if there's no match at the end, no need to try to match at the beginning. This allows for "big jumps" 
 therefore BM works better when the pattern and the text you are searching resemble "natural text" (i.e. English)
-
-Knuth-Morris-Pratt searches for occurrences of a "word" W within a main "text string" S by employing the observation 
-that when a mismatch occurs, the word itself embodies sufficient information to determine where the next match could 
-begin, thus bypassing re-examination of previously matched characters. This means KMP is better suited for small sets 
-like DNA (ACTG)
 """
 
 
