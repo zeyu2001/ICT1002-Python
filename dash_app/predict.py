@@ -61,14 +61,11 @@ input = html.Div(
 df = pd.DataFrame({'Spam': [], 'Text': []})
 
 output = dt.DataTable(
-    fixed_columns={'headers': True, 'data': 1},
-    style_table={
-        'minWidth': '100%'
-    },
     style_cell={
-        'minWidth': '100%',
-        'textAlign': 'left',
-        'overflowY': 'scroll'
+        "text-align": "left",
+        'overflow': 'hidden',
+        'textOverflow': 'ellipsis',
+        'maxWidth': 0
     },
     id='predict-output',
     columns=[{"name": i, "id": i} for i in df.columns],
