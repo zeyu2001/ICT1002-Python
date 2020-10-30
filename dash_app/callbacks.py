@@ -14,8 +14,12 @@ from app import app
 from data import parse_data, DATASET, export_data
 from bm_alg import boyer_moore_match
 from routes import save_file, download, file_download_link
-from predict_input import predict, MODEL
 from dash.dependencies import Input, Output, State
+
+try:
+    from predict_input import predict, MODEL
+except ModuleNotFoundError:
+    print('[WARNING] tensorflow not found.')
 
 import dash
 import plotly.express as px
@@ -346,11 +350,14 @@ def toggle_language(n_clicks, target_lang):
 )
 def predict_user_input(email, curr_data):
     if email:
-        result = curr_data
-        email = [email]
-        prediction = predict(email, MODEL)[0]
-        prediction = 'Spam' if prediction else 'Not Spam'
-        result = [{'Spam': prediction, 'Text': email}] + result
-        return result
+        try:
+            result = curr_data
+            email = [email]
+            prediction = predict(email, MODEL)[0]
+            prediction = 'Spam' if prediction else 'Not Spam'
+            result = [{'Spam': prediction, 'Text': email}] + result
+            return result
+        except Exception as e:
+            print("[WARNING] Unable to perform prediction:", e)
     else:
         return []
