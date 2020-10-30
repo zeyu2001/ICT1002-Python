@@ -1,3 +1,6 @@
+# About
+Spam, also known as junk email, is unwanted or unsolicited messages forwarded in bulk to users’ accounts. Such emails can clog up inboxes, take up unnecessary disk space, and in general cause a negative user experience for its recipients. Most major email service providers implement some form of a spam filter to automatically forward spam emails to a junk inbox, preventing such emails from impacting their users. Using an appropriate spam classification dataset from Kaggle, a data visualization and machine learning solution was developed. The end product is a web application built in pure Python, using the Dash framework, that allows the user to generate meaningful visualizations of email records, and predict whether a given email is spam. Using a bi-directional LSTM network, the spam classifier was able to achieve 99% accuracy on test data. 
+
 # Usage
 
 ## Running in a Development Environment
@@ -74,6 +77,8 @@ A WSGI server should be used instead. Simple-to-use, affordable solutions includ
 │   └── process_data.py
 ├── dash_app
 │   ├── app.py
+│   ├── assets
+│   │   └── main.css
 │   ├── bm_alg.py
 │   ├── callbacks.py
 │   ├── data.py
