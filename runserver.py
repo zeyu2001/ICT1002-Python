@@ -1,7 +1,8 @@
 # Insert into system path
 import sys
-sys.path.insert(0, './dash_app')
-sys.path.insert(0, './classifier')
+import os
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)) + '/dash_app')
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)) + '/classifier')
 
 import argparse
 from app import app
