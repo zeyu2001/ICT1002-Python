@@ -1,9 +1,12 @@
-# About
+# Spam or Ham
+![Project Logo](LOGO.png)
+
+## About
 Spam, also known as junk email, is unwanted or unsolicited messages forwarded in bulk to users’ accounts. Such emails can clog up inboxes, take up unnecessary disk space, and in general cause a negative user experience for its recipients. Most major email service providers implement some form of a spam filter to automatically forward spam emails to a junk inbox, preventing such emails from impacting their users. Using an appropriate spam classification dataset from Kaggle, a data visualization and machine learning solution was developed. The end product is a web application built in pure Python, using the Dash framework, that allows the user to generate meaningful visualizations of email records, and predict whether a given email is spam. Using a bi-directional LSTM network, the spam classifier was able to achieve 99% accuracy on test data. 
 
-# Usage
+## Usage
 
-## Running in a Development Environment
+### Running in a Development Environment
 
 Install requirements first: `pip install -r requirements.txt`
 
@@ -23,7 +26,7 @@ Dash is running on http://127.0.0.1:8050/
 
 After running `runserver.py`, navigate to localhost to view the application.
 
-## Debug Mode
+### Debug Mode
 
 By default, debug mode is turned off. 
 To run the Dash server with debug mode turned on, use the `--d` or `--debug` option.
@@ -43,7 +46,7 @@ Running on debug mode will turn on [Dash DevTools](https://dash.plotly.com/devto
 
 Use this for debugging and development purposes.
 
-## Deploying to a Production Environment
+### Deploying to a Production Environment
 
 In a development environment, the Dash app can be easily accessed by running `runserver.py` and navigating to localhost. In a production environment, the Dash app must be deployed to a server. 
 
@@ -55,7 +58,7 @@ Note the following:
 
 A WSGI server should be used instead. Simple-to-use, affordable solutions include [PythonAnywhere](https://www.pythonanywhere.com/) and [Heroku](https://www.heroku.com/).
 
-# Project Structure
+## Project Structure
 
 ```
 .
@@ -95,13 +98,13 @@ A WSGI server should be used instead. Simple-to-use, affordable solutions includ
 └── runserver.py
 ```
 
-## Classifier
+### Classifier
 
 - `process_data.py`: Processes data from the dataset, removing irrelevant data in the spam text including punctuation, stop words, hyperlinks, etc. and representing the data as a feature matrix that allows the model architecture to effectively extract relationships between the sequence data and resulting label.
 - `exec.py`: Trains and saves the classifier model. 
 - `predict_input.py`: Integration with the Dash Web GUI. Given a user input, predict whether the email is spam.
 
-## Dash App
+### Dash App
 
 - `app.py`: Defines the Dash application. 
 - `runserver.py`: Runs the application defined above. Integrates all routes and callbacks for the Dash application.
@@ -112,3 +115,19 @@ A WSGI server should be used instead. Simple-to-use, affordable solutions includ
 - `callbacks.py`: Defines callback functions for the Dash app. This is how the application is able to dynamically update its content (tables, graphs, etc.) based on the user input (search bar, dropdown, etc.).
 - `data.py`: Extracts data from the dataset / exports data from the dataset using pandas.
 - `bm_alg.py`: The search algorithm. We use the Boyer-Moore algorithm. The precomputation time complexity is O(m+k), where k is the size of the alphabet. The time complexity for the searching phase is O(n). 
+
+## Contributors
+- Zhang Zeyu
+- Jared Marc Song Kye-Jet
+- Lee Zhan Hong
+- Ivan Ng Say Mun
+- Bill Eng De Xian
+- Nicholas Ooi Jun Wei
+
+## License
+Use of this project is governed by the [MIT License](LICENSE).
+
+## Plagiarism
+This project is an assignment submission in partial fulfillment of the Singapore Institute of Technology (SIT) module ICT1002 Programming Fundementals. 
+
+The University's policy on copying does not allow students to copy software as well as assessment solutions from another person. 
